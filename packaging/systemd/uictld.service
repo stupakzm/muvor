@@ -1,0 +1,24 @@
+[Unit]
+Description=uictl input broker (owns /dev/uinput; nothing can click without it)
+PartOf=graphical-session.target
+# A crash is written to ERRORS.md the moment it happens, not at the next
+# scan. This is a [Unit] key: in [Service] systemd ignores it with a
+# warning in the journal, which is where it sat until 2026-08-25 — so the
+# on-failure scan this file claims to do had never once run. Restart=
+# on-failure below means it fires when the restart limit is reached, not
+# on the first crash.
+OnFailure=muvor-errscan.service
+After=graphical-session.target
+
+[Service]
+Type=simple
+# uictld takes no arguments and prints nothing on a good day.
+ExecStart=%h/projects/uictl/uictld
+Restart=on-failure
+RestartSec=2
+StateDirectory=muvor
+StandardOutput=append:%S/muvor/uictld.log
+StandardError=append:%S/muvor/uictld.log
+
+[Install]
+WantedBy=graphical-session.target

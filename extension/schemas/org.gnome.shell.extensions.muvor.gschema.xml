@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="muvor">
+  <schema id="org.gnome.shell.extensions.muvor"
+          path="/org/gnome/shell/extensions/muvor/">
+    <key name="hint" type="as">
+      <default><![CDATA[['<Alt>semicolon']]]></default>
+      <summary>Show hints</summary>
+      <description>
+        A combination, never a bare modifier tap (D8): GlobalShortcuts
+        cannot express a lone modifier press-and-release, and muvor will
+        not promise on GNOME what it cannot keep elsewhere.
+
+        Was &lt;Super&gt;semicolon until 2026-08-19, when it turned out
+        never to fire: ibus already holds that accelerator for its emoji
+        picker (org.freedesktop.ibus.panel.emoji hotkey, alongside
+        &lt;Super&gt;period). A duplicate grab is silent — addKeybinding
+        does not throw and nothing reaches the journal — so the symptom
+        is a hotkey that does nothing at all.
+
+        This is the right Alt in practice, but it is not *only* the right
+        Alt: an accelerator is a keysym plus a modifier mask, and Alt_L
+        and Alt_R both mask to Mod1. Binding one alone would need an xkb
+        option (lv3:ralt_switch), which costs AltGr — not worth it while
+        a second layout is installed.
+      </description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,45 @@
+[package]
+name = "muvor"
+version = "0.1.0"
+description = "Keyboard-driven pointer control for Linux."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+muvor-atspi = { path = "crates/muvor-atspi" }
+muvor-core = { path = "crates/muvor-core" }
+# The extension boundary (§5.5). zbus reaches the binary here and nowhere
+# else: `muvor-core` stays pure and `muvor-uictl` stays std-only.
+zbus = { version = "5", default-features = false, features = ["tokio"] }
+# `signal` is here for one reason: §4.7a's announce flag is *session*
+# state, so a daemon that sets it must put it back, and a daemon is stopped
+# by SIGTERM rather than by returning from main. `unsafe_code` is forbidden
+# in this workspace, so a hand-rolled handler is not an option.
+tokio = { version = "1", default-features = false, features = ["rt", "rt-multi-thread", "time", "signal"] }
+futures-lite = { version = "2", default-features = false, features = ["std"] }
+muvor-uictl = { path = "crates/muvor-uictl" }
+# §5.4b said it: "the bytes are decoded on muvor's side, where a decoder is
+# a dependency rather than a marshalling accident." This is that dependency.
+# The compositor can only hand back PNG (GJS cannot carry raw pixels), and
+# the detector needs luma, so something has to decode. `png` over `image`
+# because the whole of what is wanted is one decoder, not a format zoo.
+png = { version = "0.18", default-features = false }
+
+[lints]
+workspace = true
+
+[workspace]
+resolver = "3"
+members = ["crates/muvor-atspi", "crates/muvor-core", "crates/muvor-uictl"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.85"
+license = "MIT"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"

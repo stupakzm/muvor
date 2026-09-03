@@ -1,0 +1,15 @@
+[package]
+name = "muvor-uictl"
+version = "0.1.0"
+description = "Client for the uictl input broker: frames, handshake, pointer opcodes."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# No dependencies, and that is a decision. This crate encodes frames for a
+# broker that owns /dev/uinput; every dependency here is one more thing
+# between muvor's intent and the bytes on the socket. std is enough.
+[dependencies]
+
+[lints]
+workspace = true

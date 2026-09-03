@@ -1,0 +1,36 @@
+/* Two characters, high contrast, dark outline so a label survives a light
+ * background as well as a dark one (§5.3). Nothing here animates: a hint
+ * that fades in is a hint you wait for. */
+.muvor-label {
+  background-color: rgba(250, 220, 60, 0.96);
+  color: #101010;
+  border: 2px solid rgba(20, 20, 20, 0.95);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Dimmed once a keystroke has ruled it out — kept on screen rather than
+ * removed, so the eye is not asked to re-find the survivors. */
+.muvor-label-dim {
+  background-color: rgba(120, 120, 120, 0.55);
+  color: rgba(20, 20, 20, 0.75);
+  border: 2px solid rgba(20, 20, 20, 0.4);
+}
+
+/* The matched prefix, so what you have typed is visible on the hint itself. */
+.muvor-label-typed {
+  color: #8a1f00;
+}
+
+/* Where the pointer will actually go (§5.1c). Cyan because nothing else on
+ * this overlay is — the badge is yellow, the dimmed badge grey — so the eye
+ * separates "what I type" from "what gets clicked" without being told. */
+.muvor-dot {
+  background-color: rgba(0, 230, 230, 0.95);
+  border: 1px solid rgba(0, 40, 40, 0.9);
+  border-radius: 5px;
+}

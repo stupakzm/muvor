@@ -1,0 +1,25 @@
+[package]
+name = "muvor-atspi"
+version = "0.1.0"
+description = "Detection: read the accessibility tree of the focused window into targets."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# Unlike `muvor-uictl`, this crate cannot be dependency-free: AT-SPI is D-Bus,
+# and hand-rolling D-Bus is not a fight worth picking. It is confined here.
+# `tokio` is the current-thread runtime for the one D-Bus thread of D4 — the
+# sync core never sees it, and never awaits.
+#
+# `p2p` is off. atspi can talk to each application over its own socket rather
+# than through the a11y bus, which is what pyatspi does; on this machine it
+# printed "Failed to create peer" for some applications and measured no
+# faster than the bus. Worth revisiting as a latency lever once §5.2 has a
+# frame budget to spend, not before.
+[dependencies]
+atspi = { version = "0.30", default-features = false, features = ["connection", "proxies", "tokio", "zbus"] }
+tokio = { version = "1", default-features = false, features = ["rt", "time", "sync"] }
+futures-lite = { version = "2", default-features = false, features = ["std"] }
+
+[lints]
+workspace = true

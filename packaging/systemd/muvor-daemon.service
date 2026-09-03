@@ -1,0 +1,32 @@
+[Unit]
+Description=muvor daemon (mirror, focus, calibration, a11y announce)
+PartOf=graphical-session.target
+# A crash is written to ERRORS.md the moment it happens, not at the next
+# scan. This is a [Unit] key: in [Service] systemd ignores it with a
+# warning in the journal, which is where it sat until 2026-08-25 — so the
+# on-failure scan this file claims to do had never once run. Restart=
+# on-failure below means it fires when the restart limit is reached, not
+# on the first crash.
+OnFailure=muvor-errscan.service
+After=graphical-session.target uictld.service
+Wants=uictld.service
+
+[Service]
+Type=simple
+# §2.5: the daemon warms the mirror from window:activate and CANNOT hear an
+# activation that happened before it existed — which is the whole reason this
+# is a login unit and not something started by hand after the desktop is up.
+ExecStart=%h/.cargo/bin/muvor daemon
+Restart=on-failure
+RestartSec=5
+StateDirectory=muvor
+StandardOutput=append:%S/muvor/muvord.log
+StandardError=append:%S/muvor/muvord.log
+# The daemon claims org.a11y.Status.IsEnabled and RESTORES IT ON EXIT (M5s-d),
+# so a clean stop is not optional: SIGKILL would leave the desktop's announce
+# flag wherever muvor put it.
+KillSignal=SIGTERM
+TimeoutStopSec=10
+
+[Install]
+WantedBy=graphical-session.target

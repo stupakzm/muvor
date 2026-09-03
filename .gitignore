@@ -1,0 +1,10 @@
+/target/
+**/*.rs.bk
+
+idea.md
+CLAUDE.md
+
+plan.md
+idea.md
+ERRORS.md
+CLAUDE.md

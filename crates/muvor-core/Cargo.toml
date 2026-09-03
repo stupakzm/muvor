@@ -1,0 +1,16 @@
+[package]
+name = "muvor-core"
+version = "0.1.0"
+description = "Labels, ordering and the typing trie — pure logic, no I/O."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# No dependencies, and no knowledge of AT-SPI, uictl or the compositor. This
+# crate takes points and gives back labels; that is what makes §6's ports a
+# port. It is also the crate whose tests can prove things outright, because
+# nothing in it can fail for environmental reasons.
+[dependencies]
+
+[lints]
+workspace = true

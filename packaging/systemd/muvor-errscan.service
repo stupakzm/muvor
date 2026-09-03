@@ -1,0 +1,7 @@
+[Unit]
+Description=muvor: collect new errors into ERRORS.md
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/muvor-errscan
+StateDirectory=muvor

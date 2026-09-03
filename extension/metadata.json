@@ -1,0 +1,11 @@
+{
+  "uuid": "muvor@muvor.local",
+  "name": "muvor",
+  "description": "Keyboard-driven pointer control: hotkey, hint overlay, modal grab, and the window geometry only the compositor knows. Holds no product logic — detection, labels and injection all live in the muvor binary.",
+  "shell-version": [
+    "48"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.muvor",
+  "url": "https://codeberg.org/muvor",
+  "version": 10
+}
